@@ -5,7 +5,7 @@ from typing import Optional
 
 import requests
 
-from constants import OUT_FOLDER, SAVED_POST_LINKS_FILE, IMAGE_HASHES_FILE
+from constants import OUT_FOLDER, SAVED_POST_LINKS_FILE, IMAGE_HASHES_FILE, COMMUNITY_ID
 from hash_generator import process_image
 
 
@@ -20,7 +20,8 @@ def is_deleted_page(response: requests.Response) -> bool:
 
 
 def gen_links(start_pos: int, count: int = 10):
-    post_mask = 'https://vk.com/wall-136259311_{post_id}'
+    post_mask = f'https://vk.com/wall-{COMMUNITY_ID}'
+    post_mask += '_{post_id}'
     while start_pos >= count:
         result = [post_mask.format(post_id=str(x)) for x in range(start_pos, start_pos - count, -1)]
         start_pos -= count
